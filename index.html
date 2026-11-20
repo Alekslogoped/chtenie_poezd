@@ -1,1 +1,91 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#edf4f8">
+  <title>Поезд животных</title>
+  <script>
+    if (window.self !== window.top || new URLSearchParams(location.search).get("embed") === "1") {
+      document.documentElement.classList.add("game-embedded");
+    }
+  </script>
+  <link rel="stylesheet" href="game.css">
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <main class="game" aria-labelledby="game-title">
+    <section class="scene" aria-label="Игровое поле">
+      <div class="snowfall" aria-hidden="true"></div>
+      <header class="toolbar">
+        <span class="level-label">Уровень 1</span>
+        <div class="progress-pill" aria-label="Пассажиры в вагонах">
+          <span aria-hidden="true">★</span>
+          <span id="progress-text">0 / 9</span>
+        </div>
+        <div class="toolbar-actions">
+          <button class="utility" id="rules-button" type="button"><span aria-hidden="true">?</span> Правила</button>
+          <button class="utility" id="fullscreen-button" type="button"><span class="expand" aria-hidden="true"></span> <span id="fullscreen-label">Во весь экран</span></button>
+        </div>
+      </header>
 
+      <div class="game-top">
+        <h1 id="game-title">Прочитай слово и выбери вагон</h1>
+      </div>
+      <div class="platform">
+        <div class="card word waiting-for-train" id="card" aria-live="polite" aria-atomic="true"></div>
+        <p class="feedback" id="feedback" role="status"></p>
+      </div>
+
+      <div class="railway" aria-label="Поезд с вагонами">
+        <div class="track" aria-hidden="true"></div>
+        <div class="train" id="train">
+          <div class="engine" aria-hidden="true">
+            <span class="smoke"><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+          <button class="wagon wagon-forest" type="button" data-group="forest" aria-labelledby="forest-label">
+            <span class="wagon-body">
+              <strong id="forest-label">Дикие животные</strong>
+              <span class="windows" aria-hidden="true"></span>
+            </span>
+          </button>
+          <button class="wagon wagon-home" type="button" data-group="home" aria-labelledby="home-label">
+            <span class="wagon-body">
+              <strong id="home-label">Домашние животные</strong>
+              <span class="windows" aria-hidden="true"></span>
+            </span>
+          </button>
+          <button class="wagon wagon-hot" type="button" data-group="hot" aria-labelledby="hot-label">
+            <span class="wagon-body">
+              <strong id="hot-label">Животные жарких стран</strong>
+              <span class="windows" aria-hidden="true"></span>
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="finish" id="finish" hidden>
+        <div class="finish-card">
+          <span class="finish-icon" aria-hidden="true"></span>
+          <h2 id="finish-title" tabindex="-1">Поезд отправился!</h2>
+          <p>Все пассажиры на своих местах.</p>
+          <button class="primary" id="restart" type="button">Играть ещё</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="rules" aria-labelledby="rules-title">
+    <form method="dialog">
+      <button type="submit" class="dialog-close" aria-label="Закрыть">×</button>
+    </form>
+    <h2 id="rules-title">Как играть</h2>
+    <ol>
+      <li>Прочитай слово на карточке.</li>
+      <li>Подумай, в каком вагоне поедет это животное.</li>
+      <li>Перетащи карточку в нужный вагон или нажми на вагон.</li>
+    </ol>
+    <p>Посмотри, кто появился в окошке!</p>
+    <form method="dialog"><button class="primary" type="submit">Играть</button></form>
+  </dialog>
+</body>
+</html>
