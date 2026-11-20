@@ -98,7 +98,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
   50% { transform: translate3d(var(--snow-drift), calc(-.5 * var(--tile-height)), 0); }
   to { transform: translate3d(0, 0, 0); }
 }
-.game-top { padding: clamp(12px, 2.6vh, 27px) 14px 0; text-align: center; }
+.game-top { margin-top: clamp(6px, 1.65dvh, 14px); padding: clamp(12px, 2.6vh, 27px) 14px 0; text-align: center; }
 .game-top h1 { margin: 0; font-size: clamp(1.16rem, 2.5vw, 1.8rem); line-height: 1.2; font-weight: 850; text-wrap: balance; text-shadow: 0 2px 0 #f5fcffad; }
 .progress-pill { display: flex; align-items: center; justify-content: center; gap: 7px; min-width: 78px; padding: 6px 12px; border-radius: 999px; color: #21465c; background: #f9fcff; font-size: .9rem; font-variant-numeric: tabular-nums; white-space: nowrap; box-shadow: 0 3px 8px #354c2a22; }
 .progress-pill > span:first-child { color: #ac660e; font-size: 1.08rem; }
@@ -121,8 +121,8 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
 .train {
   position: relative;
   z-index: 1;
-  width: 98.5%;
-  max-width: 1380px;
+  width: 99%;
+  max-width: 1440px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: .82fr 1fr 1fr 1fr;
@@ -145,7 +145,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
   min-width: 0;
   background: var(--vehicle-image) center bottom / 100% 100% no-repeat;
 }
-.engine { --vehicle-image: var(--engine-image); aspect-ratio: 1.56; }
+.engine { --vehicle-image: var(--engine-image); aspect-ratio: 1.50; }
 .engine::before, .wagon:not(:last-child)::before {
   content: "";
   position: absolute;
@@ -164,7 +164,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
   display: block;
   border: 0;
   padding: 0;
-  aspect-ratio: 1.67;
+  aspect-ratio: 1.60;
   border-radius: 14px;
   color: var(--label);
   transition: transform .16s ease, filter .16s ease;
@@ -329,7 +329,7 @@ dialog ol { padding-left: 22px; }
   .feedback { min-height: 24px; margin-top: 4px; padding-block: 2px; font-size: .85rem; }
   .railway { --floor-gap: 26px; padding-top: 6px; }
   .track { height: 22px; }
-  .train { max-width: min(1150px, 195svh); }
+  .train { max-width: min(1200px, 199svh); }
 }
 :root:is(:fullscreen, .game-expanded, .game-embedded) .game {
   width: 100%;
@@ -342,16 +342,13 @@ dialog ol { padding-left: 22px; }
   border-radius: 0;
   box-shadow: none;
 }
-@media (min-height: 621px) {
-  :root:is(:fullscreen, .game-expanded:not(.game-embedded)) .train { max-width: 1380px; }
-}
 :root.game-embedded:not(:fullscreen) .toolbar { padding-top: clamp(6px, 1.5dvh, 14px); }
 :root.game-embedded:not(:fullscreen) .game-top { padding-top: clamp(5px, 1.3dvh, 14px); }
 :root.game-embedded:not(:fullscreen) .platform { padding-top: clamp(6px, 1.7dvh, 18px); }
 :root.game-embedded:not(:fullscreen) .feedback { min-height: 24px; margin-top: 4px; padding-block: 2px; font-size: .85rem; }
 :root.game-embedded:not(:fullscreen) .railway { --floor-gap: clamp(22px, 4.8dvh, 45px); padding-top: 6px; }
 :root.game-embedded:not(:fullscreen) .track { height: clamp(16px, 4.5dvh, 32px); }
-:root.game-embedded:not(:fullscreen) .train { max-width: min(1380px, 204dvh); }
+:root.game-embedded:not(:fullscreen) .train { max-width: min(1440px, 208dvh); }
 @media (max-height: 460px) {
   :root.game-embedded:not(:fullscreen) .toolbar .utility { min-height: 32px; padding-inline: 8px; font-size: .75rem; }
   :root.game-embedded:not(:fullscreen) .card { padding-block: 5px; }
