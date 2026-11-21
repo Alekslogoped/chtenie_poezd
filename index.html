@@ -10,8 +10,8 @@
       document.documentElement.classList.add("game-embedded");
     }
   </script>
-  <link rel="stylesheet" href="game.css?v=3">
-  <script src="game.js?v=3" defer></script>
+  <link rel="stylesheet" href="game.css?v=4">
+  <script src="game.js?v=4" defer></script>
 </head>
 <body>
   <main class="game" aria-labelledby="game-title">
@@ -21,6 +21,9 @@
         <div class="game-picker" role="group" aria-label="Выбери игру">
           <button class="utility" type="button" data-game="animals" aria-pressed="true">Животные</button>
           <button class="utility" type="button" data-game="food" aria-pressed="false">Продукты</button>
+          <button class="utility" type="button" data-game="wildlife" aria-pressed="false">Птицы, рыбы и насекомые</button>
+          <button class="utility" type="button" data-game="wardrobe" aria-pressed="false">Гардероб</button>
+          <button class="utility" type="button" data-game="jobs" aria-pressed="false">Кому это нужно?</button>
         </div>
         <div class="progress-pill" aria-label="Распределённые карточки">
           <span aria-hidden="true">★</span>
@@ -37,6 +40,10 @@
       </div>
       <div class="platform">
         <div class="card word waiting-for-train" id="card" aria-live="polite" aria-atomic="true"></div>
+        <div class="reading-picker" role="group" aria-label="Режим чтения">
+          <button class="utility" type="button" data-reading="whole" aria-pressed="true">Целиком</button>
+          <button class="utility" type="button" data-reading="syllables" aria-pressed="false">По слогам</button>
+        </div>
         <p class="feedback" id="feedback" role="status"></p>
       </div>
 
@@ -83,7 +90,7 @@
     </form>
     <h2 id="rules-title">Как играть</h2>
     <ol>
-      <li>Прочитай слово на карточке.</li>
+      <li>Прочитай слово на карточке. Можно читать целиком или по слогам.</li>
       <li>Подумай, к какой группе относится это слово.</li>
       <li>Перетащи карточку в нужный вагон или нажми на вагон.</li>
     </ol>

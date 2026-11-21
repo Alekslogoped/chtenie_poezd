@@ -1,26 +1,59 @@
 "use strict";
 
 const animals = [
-  { id: "wolf", word: "волк", group: "forest" },
-  { id: "fox", word: "лиса", group: "forest" },
-  { id: "hare", word: "заяц", group: "forest" },
-  { id: "cat", word: "кот", group: "home" },
-  { id: "dog", word: "собака", group: "home" },
-  { id: "cow", word: "корова", group: "home" },
-  { id: "giraffe", word: "жираф", group: "hot" },
-  { id: "elephant", word: "слон", group: "hot" },
-  { id: "zebra", word: "зебра", group: "hot" }
+  { id: "wolf", syllables: "волк", group: "forest" },
+  { id: "fox", syllables: "ли-са", group: "forest" },
+  { id: "hare", syllables: "за-яц", group: "forest" },
+  { id: "cat", syllables: "кот", group: "home" },
+  { id: "dog", syllables: "со-ба-ка", group: "home" },
+  { id: "cow", syllables: "ко-ро-ва", group: "home" },
+  { id: "giraffe", syllables: "жи-раф", group: "hot" },
+  { id: "elephant", syllables: "слон", group: "hot" },
+  { id: "zebra", syllables: "зе-бра", group: "hot" }
 ];
 const food = [
-  { id: "milk", word: "молоко", group: "dairy" },
-  { id: "cheese", word: "сыр", group: "dairy" },
-  { id: "yogurt", word: "йогурт", group: "dairy" },
-  { id: "bread", word: "хлеб", group: "bakery" },
-  { id: "bun", word: "булочка", group: "bakery" },
-  { id: "bagel", word: "бублик", group: "bakery" },
-  { id: "salami", word: "колбаса", group: "meat" },
-  { id: "sausages", word: "сосиски", group: "meat" },
-  { id: "cutlet", word: "котлета", group: "meat" }
+  { id: "milk", syllables: "мо-ло-ко", group: "dairy" },
+  { id: "cheese", syllables: "сыр", group: "dairy" },
+  { id: "yogurt", syllables: "йо-гурт", group: "dairy" },
+  { id: "bread", syllables: "хлеб", group: "bakery" },
+  { id: "bun", syllables: "бу-лоч-ка", group: "bakery" },
+  { id: "bagel", syllables: "буб-лик", group: "bakery" },
+  { id: "salami", syllables: "кол-ба-са", group: "meat" },
+  { id: "sausages", syllables: "со-сис-ки", group: "meat" },
+  { id: "cutlet", syllables: "кот-ле-та", group: "meat" }
+];
+const wildlife = [
+  { id: "owl", syllables: "со-ва", group: "birds" },
+  { id: "duck", syllables: "ут-ка", group: "birds" },
+  { id: "crow", syllables: "во-ро-на", group: "birds" },
+  { id: "catfish", syllables: "сом", group: "fish" },
+  { id: "pike", syllables: "щу-ка", group: "fish" },
+  { id: "perch", syllables: "о-кунь", group: "fish" },
+  { id: "beetle", syllables: "жук", group: "insects" },
+  { id: "wasp", syllables: "о-са", group: "insects" },
+  { id: "fly", syllables: "му-ха", group: "insects" }
+];
+const wardrobe = [
+  { id: "skirt", syllables: "юб-ка", group: "clothes" },
+  { id: "dress", syllables: "пла-тье", group: "clothes" },
+  { id: "trousers", syllables: "брю-ки", group: "clothes" },
+  { id: "boots", syllables: "са-по-ги", group: "shoes" },
+  { id: "shoes", syllables: "туф-ли", group: "shoes" },
+  { id: "slippers", syllables: "тап-ки", group: "shoes" },
+  { id: "hat", syllables: "шап-ка", group: "headwear" },
+  { id: "cap", syllables: "кеп-ка", group: "headwear" },
+  { id: "beret", syllables: "бе-рет", group: "headwear" }
+];
+const jobs = [
+  { id: "bandage", syllables: "бинт", group: "doctor" },
+  { id: "syringe", syllables: "шприц", group: "doctor" },
+  { id: "thermometer", syllables: "гра-дус-ник", group: "doctor" },
+  { id: "ladle", syllables: "по-лов-ник", group: "cook" },
+  { id: "grater", syllables: "тёр-ка", group: "cook" },
+  { id: "pan", syllables: "ско-во-ро-да", group: "cook" },
+  { id: "helmet", syllables: "кас-ка", group: "builder" },
+  { id: "brick", syllables: "кир-пич", group: "builder" },
+  { id: "trowel", syllables: "мас-те-рок", group: "builder" }
 ];
 const games = {
   animals: {
@@ -42,6 +75,24 @@ const games = {
     ],
     items: food,
     finish: "Все продукты разложены по вагонам."
+  },
+  wildlife: {
+    title: "Птицы, рыбы и насекомые",
+    groups: [["birds", "Птицы"], ["fish", "Рыбы"], ["insects", "Насекомые"]],
+    items: wildlife,
+    finish: "Все пассажиры на своих местах."
+  },
+  wardrobe: {
+    title: "Гардероб",
+    groups: [["clothes", "Одежда"], ["shoes", "Обувь"], ["headwear", "Головные уборы"]],
+    items: wardrobe,
+    finish: "Все вещи разложены по вагонам."
+  },
+  jobs: {
+    title: "Кому это нужно?",
+    groups: [["doctor", "Врачу"], ["cook", "Повару"], ["builder", "Строителю"]],
+    items: jobs,
+    finish: "Врач, повар и строитель получат всё, что им нужно."
   }
 };
 
@@ -51,6 +102,7 @@ const progressText = document.querySelector("#progress-text");
 const train = document.querySelector("#train");
 const wagons = [...document.querySelectorAll(".wagon")];
 const gameButtons = [...document.querySelectorAll(".game-picker button")];
+const readingButtons = [...document.querySelectorAll(".reading-picker button")];
 const finish = document.querySelector("#finish");
 const finishTitle = document.querySelector("#finish-title");
 const finishMessage = document.querySelector("#finish-message");
@@ -61,8 +113,11 @@ const fullscreenLabel = document.querySelector("#fullscreen-label");
 const page = document.documentElement;
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 const pictures = new Map();
+const options = new URLSearchParams(location.search);
+const requestedGame = options.get("game");
 
-let activeGame = new URLSearchParams(location.search).get("game") === "food" ? "food" : "animals";
+let activeGame = Object.hasOwn(games, requestedGame) ? requestedGame : "animals";
+let readingMode = options.get("reading") === "syllables" ? "syllables" : "whole";
 let round = 0;
 let queue = [];
 let position = 0;
@@ -79,7 +134,10 @@ function shuffle(list) {
 }
 
 function showPassenger() {
-  card.textContent = queue[position].word.toUpperCase();
+  const { syllables } = queue[position];
+  const word = readingMode === "syllables" ? syllables : syllables.replaceAll("-", "");
+  card.textContent = word.toUpperCase();
+  card.style.setProperty("--word-length", word.length);
 }
 
 function say(message, tone = "") {
@@ -114,7 +172,7 @@ async function startGame() {
     if (pictures.has(item.id)) continue;
     const image = new Image();
     image.src = `assets/${activeGame}/${item.id}.webp`;
-    image.alt = item.word;
+    image.alt = item.syllables.replaceAll("-", "");
     pictures.set(item.id, image);
   }
   for (const [index, wagon] of wagons.entries()) {
@@ -128,13 +186,12 @@ async function startGame() {
     const seats = Array.from({ length: capacity }, () => document.createElement("i"));
     wagon.querySelector(".windows").replaceChildren(...seats);
   }
-  showPassenger();
-
   void train.offsetWidth;
   train.classList.add("arriving");
   await waitForTrain();
   if (currentRound !== round) return false;
   train.classList.remove("arriving");
+  showPassenger();
   card.classList.remove("waiting-for-train");
   for (const wagon of wagons) wagon.disabled = false;
   boarding = false;
@@ -283,19 +340,38 @@ document.addEventListener("keydown", event => {
 restart.addEventListener("click", async () => {
   if (await startGame()) wagons[0].focus();
 });
+function updateSelectionUrl() {
+  const url = new URL(location.href);
+  if (activeGame === "animals") url.searchParams.delete("game");
+  else url.searchParams.set("game", activeGame);
+  if (readingMode === "whole") url.searchParams.delete("reading");
+  else url.searchParams.set("reading", readingMode);
+  try {
+    history.replaceState(null, "", url);
+  } catch (error) {
+    if (error.name !== "SecurityError") throw error;
+  }
+}
+
 for (const button of gameButtons) {
   button.addEventListener("click", () => {
     if (activeGame === button.dataset.game) return;
     activeGame = button.dataset.game;
-    const url = new URL(location.href);
-    if (activeGame === "food") url.searchParams.set("game", "food");
-    else url.searchParams.delete("game");
-    try {
-      history.replaceState(null, "", url);
-    } catch (error) {
-      if (error.name !== "SecurityError") throw error;
-    }
+    updateSelectionUrl();
     startGame();
+  });
+}
+for (const button of readingButtons) {
+  button.setAttribute("aria-pressed", String(button.dataset.reading === readingMode));
+  button.addEventListener("click", () => {
+    if (readingMode === button.dataset.reading) return;
+    readingMode = button.dataset.reading;
+    for (const option of readingButtons) {
+      option.setAttribute("aria-pressed", String(option === button));
+    }
+    updateSelectionUrl();
+    clearDrag();
+    if (!boarding) showPassenger();
   });
 }
 document.querySelector("#rules-button").addEventListener("click", () => rules.showModal());
