@@ -7,10 +7,7 @@
   --ink: #173c54;
   --paper: #f8fcff;
   --scene-image: url("assets/winter-forest.webp");
-  --engine-image: url("assets/train/engine.webp");
-  --wagon-he-image: url("assets/train/wagon-he.webp");
-  --wagon-she-image: url("assets/train/wagon-she.webp");
-  --wagon-it-image: url("assets/train/wagon-it.webp");
+  --engine-image: url("assets/train/blue-engine.webp");
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -156,17 +153,17 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
   content: "";
   position: absolute;
   z-index: -1;
-  bottom: 16%;
+  bottom: 20%;
   right: -8%;
   width: 15%;
   height: 5%;
   border-radius: 4px;
-  background: linear-gradient(#8e7970, #564b48);
+  background: linear-gradient(#b9c9d8, #64758a);
 }
 .wagon {
-  --vehicle-image: var(--wagon-he-image);
-  --label: #163f45;
-  --trim: #2f5653;
+  --vehicle-image: url("assets/train/lilac-coach.webp");
+  --label: #392262;
+  --trim: #624a81;
   display: block;
   border: 0;
   padding: 0;
@@ -176,40 +173,40 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
   transition: transform .16s ease, filter .16s ease;
   container-type: inline-size;
 }
-.wagon-home { --vehicle-image: var(--wagon-she-image); --label: #7b263b; --trim: #7c4c49; }
-.wagon-hot { --vehicle-image: var(--wagon-it-image); --label: #714211; --trim: #815521; }
+.wagon-home { --vehicle-image: url("assets/train/blue-coach.webp"); --label: #15385d; --trim: #315d87; }
+.wagon-hot { --vehicle-image: url("assets/train/mint-coach.webp"); --label: #164739; --trim: #376655; }
 .wagon:not(:disabled):hover, .wagon.is-over {
   transform: translateY(-5px);
-  filter: brightness(1.07) drop-shadow(0 0 5px #fff0bca6);
+  filter: brightness(1.07) drop-shadow(0 0 5px #e7f4ffc9);
 }
-.wagon.is-over .wagon-body strong { outline: 2px solid #fff5cb; outline-offset: 2px; }
+.wagon.is-over .wagon-body strong { outline: 2px solid #edf7ff; outline-offset: 2px; }
 .wagon:focus-visible { outline-color: #173c54; }
 .wagon-body {
   position: absolute;
-  inset: 17% 9% 25%;
+  inset: 24% 9% 24%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  gap: 3px;
+  gap: 2px;
   pointer-events: none;
 }
 .wagon-body strong {
-  background: linear-gradient(#fff9dc, #f6e5b4);
+  background: linear-gradient(#fff, #e9eff8);
   border: 1px solid var(--trim);
-  border-radius: 7px;
+  border-radius: 9px;
   display: grid;
   place-items: center;
   width: 100%;
   padding: 3px 4px;
-  font-size: clamp(.72rem, 7.5cqw, 1.34rem);
+  font-size: clamp(.72rem, 6.25cqw, 1.25rem);
   font-weight: 850;
   line-height: 1.02;
   text-wrap: balance;
   hyphens: auto;
   overflow-wrap: anywhere;
   pointer-events: auto;
-  box-shadow: 0 1px 2px #593f3457;
+  box-shadow: 0 1px 2px #233c5a52;
 }
 .windows {
   display: grid;
@@ -222,16 +219,16 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
   display: grid;
   place-items: center;
   width: 100%;
-  max-width: 76px;
-  aspect-ratio: 1.22;
-  background: linear-gradient(135deg, #fff9e0 0 38%, #e7dcc0 39% 59%, #e7d2a7 60% 100%);
+  max-width: min(76px, 23cqw);
+  aspect-ratio: 1.35;
+  background: linear-gradient(135deg, #f3f8ff 0 38%, #dce8f7 39% 59%, #c7d6eb 60% 100%);
   border: 2px solid var(--trim);
-  border-radius: 6px;
-  box-shadow: 0 1px 0 #fff3d5ac;
+  border-radius: 9px;
+  box-shadow: 0 1px 0 #f2f8ffac;
   font-style: normal;
   overflow: hidden;
 }
-.windows i.filled { background: #fffdf4; }
+.windows i.filled { background: #fff; }
 .windows img { display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain; }
 .drag-ghost, .flying { position: fixed; z-index: 9; margin: 0; pointer-events: none; will-change: transform; }
 .drag-ghost { transform: translate(-50%, -50%); padding: 9px 14px; background: white; border-radius: 14px; box-shadow: 0 6px 18px #153a3966; font-size: clamp(1.15rem, 3vw, 1.8rem); }
@@ -252,8 +249,8 @@ dialog ol { padding-left: 22px; }
 .smoke {
   position: absolute;
   z-index: 2;
-  left: 27%;
-  top: 3%;
+  left: 33%;
+  top: 2%;
   pointer-events: none;
   --puff-width: clamp(18px, 4.2vw, 52px);
   --puff-rise: clamp(50px, 10.5vw, 125px);
