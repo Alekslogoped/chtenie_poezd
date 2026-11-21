@@ -11,27 +11,59 @@ const animals = [
   { id: "elephant", word: "слон", group: "hot" },
   { id: "zebra", word: "зебра", group: "hot" }
 ];
+const food = [
+  { id: "milk", word: "молоко", group: "dairy" },
+  { id: "cheese", word: "сыр", group: "dairy" },
+  { id: "yogurt", word: "йогурт", group: "dairy" },
+  { id: "bread", word: "хлеб", group: "bakery" },
+  { id: "bun", word: "булочка", group: "bakery" },
+  { id: "bagel", word: "бублик", group: "bakery" },
+  { id: "salami", word: "колбаса", group: "meat" },
+  { id: "sausages", word: "сосиски", group: "meat" },
+  { id: "cutlet", word: "котлета", group: "meat" }
+];
+const games = {
+  animals: {
+    title: "Поезд животных",
+    groups: [
+      ["forest", "Дикие животные"],
+      ["home", "Домашние животные"],
+      ["hot", "Животные жарких стран"]
+    ],
+    items: animals,
+    finish: "Все пассажиры на своих местах."
+  },
+  food: {
+    title: "Поезд продуктов",
+    groups: [
+      ["dairy", "Молочные продукты"],
+      ["bakery", "Хлебобулочные изделия"],
+      ["meat", "Мясные продукты"]
+    ],
+    items: food,
+    finish: "Все продукты разложены по вагонам."
+  }
+};
 
 const card = document.querySelector("#card");
 const feedback = document.querySelector("#feedback");
 const progressText = document.querySelector("#progress-text");
 const train = document.querySelector("#train");
 const wagons = [...document.querySelectorAll(".wagon")];
+const gameButtons = [...document.querySelectorAll(".game-picker button")];
 const finish = document.querySelector("#finish");
 const finishTitle = document.querySelector("#finish-title");
+const finishMessage = document.querySelector("#finish-message");
 const restart = document.querySelector("#restart");
 const rules = document.querySelector("#rules");
 const fullscreenButton = document.querySelector("#fullscreen-button");
 const fullscreenLabel = document.querySelector("#fullscreen-label");
 const page = document.documentElement;
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
-const pictures = Object.fromEntries(animals.map(animal => {
-  const image = new Image();
-  image.src = `assets/animals/${animal.id}.webp`;
-  image.alt = animal.word;
-  return [animal.id, image];
-}));
+const pictures = new Map();
 
+let activeGame = new URLSearchParams(location.search).get("game") === "food" ? "food" : "animals";
+let round = 0;
 let queue = [];
 let position = 0;
 let boarding = false;
@@ -61,17 +93,35 @@ function waitForTrain() {
 }
 
 async function startGame() {
-  queue = shuffle(animals);
+  const currentRound = ++round;
+  const game = games[activeGame];
+  queue = shuffle(game.items);
   position = 0;
   boarding = true;
   train.classList.remove("arriving", "leaving");
   clearDrag();
+  document.querySelector(".flying")?.remove();
+  document.title = game.title;
   finish.hidden = true;
+  finishMessage.textContent = game.finish;
   card.classList.add("waiting-for-train");
   progressText.textContent = `0 / ${queue.length}`;
   say("");
-  for (const wagon of wagons) {
-    const capacity = queue.filter(animal => animal.group === wagon.dataset.group).length;
+  for (const button of gameButtons) {
+    button.setAttribute("aria-pressed", String(button.dataset.game === activeGame));
+  }
+  for (const item of game.items) {
+    if (pictures.has(item.id)) continue;
+    const image = new Image();
+    image.src = `assets/${activeGame}/${item.id}.webp`;
+    image.alt = item.word;
+    pictures.set(item.id, image);
+  }
+  for (const [index, wagon] of wagons.entries()) {
+    const [group, label] = game.groups[index];
+    const capacity = queue.filter(item => item.group === group).length;
+    wagon.dataset.group = group;
+    wagon.querySelector("strong").textContent = label;
     wagon.disabled = true;
     wagon.classList.remove("correct", "incorrect");
     wagon.style.setProperty("--seats", capacity);
@@ -83,14 +133,16 @@ async function startGame() {
   void train.offsetWidth;
   train.classList.add("arriving");
   await waitForTrain();
+  if (currentRound !== round) return false;
   train.classList.remove("arriving");
   card.classList.remove("waiting-for-train");
   for (const wagon of wagons) wagon.disabled = false;
   boarding = false;
+  return true;
 }
 
 function addPassenger(passenger, seat) {
-  seat.append(pictures[passenger.id]);
+  seat.append(pictures.get(passenger.id));
   seat.classList.add("filled");
 }
 
@@ -98,7 +150,7 @@ async function animateBoarding(passenger, seat, from) {
   if (reducedMotion.matches) return;
   const destination = seat.getBoundingClientRect();
   const size = Math.min(from.width, from.height);
-  const sprite = pictures[passenger.id].cloneNode();
+  const sprite = pictures.get(passenger.id).cloneNode();
   sprite.className = "flying";
   sprite.setAttribute("aria-hidden", "true");
   Object.assign(sprite.style, {
@@ -120,12 +172,14 @@ async function animateBoarding(passenger, seat, from) {
 }
 
 async function endGame() {
+  const currentRound = round;
   card.classList.add("waiting-for-train");
   card.textContent = "";
   say("");
   for (const wagon of wagons) wagon.disabled = true;
   train.classList.add("leaving");
   await waitForTrain();
+  if (currentRound !== round) return;
   finish.hidden = false;
   finishTitle.focus();
 }
@@ -133,6 +187,7 @@ async function endGame() {
 async function chooseWagon(wagon, from = card.getBoundingClientRect()) {
   if (boarding || wagon.disabled || position === queue.length || rules.open) return;
   const passenger = queue[position];
+  const currentRound = round;
   if (passenger.group !== wagon.dataset.group) {
     wagon.classList.remove("incorrect");
     void wagon.offsetWidth;
@@ -147,6 +202,7 @@ async function chooseWagon(wagon, from = card.getBoundingClientRect()) {
   card.classList.add("waiting-for-train");
   say("Отлично!", "good");
   await animateBoarding(passenger, seat, from);
+  if (currentRound !== round) return;
   addPassenger(passenger, seat);
   wagon.classList.add("correct");
   position++;
@@ -225,9 +281,23 @@ document.addEventListener("keydown", event => {
   chooseWagon(wagon);
 });
 restart.addEventListener("click", async () => {
-  await startGame();
-  wagons[0].focus();
+  if (await startGame()) wagons[0].focus();
 });
+for (const button of gameButtons) {
+  button.addEventListener("click", () => {
+    if (activeGame === button.dataset.game) return;
+    activeGame = button.dataset.game;
+    const url = new URL(location.href);
+    if (activeGame === "food") url.searchParams.set("game", "food");
+    else url.searchParams.delete("game");
+    try {
+      history.replaceState(null, "", url);
+    } catch (error) {
+      if (error.name !== "SecurityError") throw error;
+    }
+    startGame();
+  });
+}
 document.querySelector("#rules-button").addEventListener("click", () => rules.showModal());
 
 function updateFullscreenLabel() {

@@ -10,16 +10,19 @@
       document.documentElement.classList.add("game-embedded");
     }
   </script>
-  <link rel="stylesheet" href="game.css?v=2">
-  <script src="game.js" defer></script>
+  <link rel="stylesheet" href="game.css?v=3">
+  <script src="game.js?v=3" defer></script>
 </head>
 <body>
   <main class="game" aria-labelledby="game-title">
     <section class="scene" aria-label="Игровое поле">
       <div class="snowfall" aria-hidden="true"></div>
       <header class="toolbar">
-        <span class="level-label">Уровень 1</span>
-        <div class="progress-pill" aria-label="Пассажиры в вагонах">
+        <div class="game-picker" role="group" aria-label="Выбери игру">
+          <button class="utility" type="button" data-game="animals" aria-pressed="true">Животные</button>
+          <button class="utility" type="button" data-game="food" aria-pressed="false">Продукты</button>
+        </div>
+        <div class="progress-pill" aria-label="Распределённые карточки">
           <span aria-hidden="true">★</span>
           <span id="progress-text">0 / 9</span>
         </div>
@@ -67,7 +70,7 @@
         <div class="finish-card">
           <span class="finish-icon" aria-hidden="true"></span>
           <h2 id="finish-title" tabindex="-1">Поезд отправился!</h2>
-          <p>Все пассажиры на своих местах.</p>
+          <p id="finish-message">Все пассажиры на своих местах.</p>
           <button class="primary" id="restart" type="button">Играть ещё</button>
         </div>
       </div>
@@ -81,10 +84,10 @@
     <h2 id="rules-title">Как играть</h2>
     <ol>
       <li>Прочитай слово на карточке.</li>
-      <li>Подумай, в каком вагоне поедет это животное.</li>
+      <li>Подумай, к какой группе относится это слово.</li>
       <li>Перетащи карточку в нужный вагон или нажми на вагон.</li>
     </ol>
-    <p>Посмотри, кто появился в окошке!</p>
+    <p>Посмотри, какая картинка появилась в окошке!</p>
     <form method="dialog"><button class="primary" type="submit">Играть</button></form>
   </dialog>
 </body>
