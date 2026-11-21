@@ -101,7 +101,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
   50% { transform: translate3d(var(--snow-drift), calc(-.5 * var(--tile-height)), 0); }
   to { transform: translate3d(0, 0, 0); }
 }
-.game-top { margin-top: clamp(6px, 1.65dvh, 14px); padding: clamp(12px, 2.6vh, 27px) 14px 0; text-align: center; }
+.game-top { margin-top: clamp(11px, 3.5dvh, 32px); padding: clamp(12px, 2.6vh, 27px) 14px 0; text-align: center; }
 .game-top h1 { margin: 0; font-size: clamp(1.16rem, 2.5vw, 1.8rem); line-height: 1.2; font-weight: 850; text-wrap: balance; text-shadow: 0 2px 0 #f5fcffad; }
 .progress-pill { display: flex; align-items: center; justify-content: center; gap: 7px; min-width: 78px; padding: 6px 12px; border-radius: 999px; color: #21465c; background: #f9fcff; font-size: .9rem; font-variant-numeric: tabular-nums; white-space: nowrap; box-shadow: 0 3px 8px #354c2a22; }
 .progress-pill > span:first-child { color: #ac660e; font-size: 1.08rem; }
